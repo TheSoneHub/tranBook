@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DocuTranslate AI - V2</title>
+    <title>DocuTranslate AI</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,23 +27,6 @@
         </div>
     </div>
 
-    <!-- Login Modal -->
-    <div id="login-modal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <button class="modal-close-btn">&times;</button>
-            <div class="auth-header">
-                <i class="fa-solid fa-book-open-reader"></i>
-                <h1>Sign In / Up</h1>
-            </div>
-            <p>Sign in to sync your library across all your devices.</p>
-            <form id="login-form">
-                <input type="email" id="email-input" placeholder="Enter your email" required>
-                <button type="submit">Send Magic Link</button>
-            </form>
-            <div id="auth-feedback" class="feedback"></div>
-        </div>
-    </div>
-    
     <!-- Main Application Container (Initially Hidden) -->
     <div id="app-container" class="hidden">
         <header>
@@ -60,38 +43,39 @@
                 <select id="language-select">
                     <option value="Burmese" selected>Translate to Burmese</option>
                     <option value="English">Translate to English</option>
+                    <option value="Japanese">Translate to Japanese</option>
                 </select>
-                <button id="dark-mode-toggle" title="Toggle Dark Mode"><i class="fa-solid fa-moon"></i></button>
-                <div id="user-controls">
-                    <button id="login-btn"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
-                    <div id="user-profile-menu" class="hidden">
-                        <button id="user-profile-btn"><i class="fa-solid fa-user"></i></button>
-                        <div id="user-dropdown" class="hidden">
-                            <div id="user-email-display"></div>
-                            <button id="logout-btn">Logout</button>
-                        </div>
-                    </div>
-                </div>
+                <button id="dark-mode-toggle" title="Toggle Dark Mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
             </div>
         </header>
 
         <main class="main-container">
+            <!-- Left Pane - Library or Document Viewer -->
             <div id="left-pane" class="split">
                 <div id="library-view"></div>
                 <div id="document-viewer" class="hidden"></div>
             </div>
+
+            <!-- Right Pane - Translation Panel -->
             <div id="translation-panel" class="split">
                 <div class="tab-container">
                     <button class="tab-button active" data-tab="current-translation-content">Translation</button>
                     <button class="tab-button" data-tab="translation-history-content">History</button>
                 </div>
                 <div class="tab-content-wrapper">
-                    <div id="current-translation-content" class="tab-content active"><div class="placeholder"><i class="fa-solid fa-wand-magic-sparkles"></i><p>Select text from a document.</p></div></div>
+                    <div id="current-translation-content" class="tab-content active">
+                        <div class="placeholder">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <p>Select text from a document to see the translation here.</p>
+                        </div>
+                    </div>
                     <div id="translation-history-content" class="tab-content"></div>
                 </div>
                 <div class="actions">
                     <button id="copy-button" disabled><i class="fa-regular fa-copy"></i> Copy</button>
-                    <button id="export-button" disabled><i class="fa-solid fa-download"></i> Export</button>
+                    <button id="export-button" disabled><i class="fa-solid fa-download"></i> Export History</button>
                 </div>
             </div>
         </main>
@@ -100,15 +84,17 @@
     <div id="toast-container"></div>
     <input type="file" id="file-input" class="file-input-hidden" accept=".pdf, .docx, .epub">
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/docx-preview@0.1.15/dist/docx-preview.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
     <script src="https://unpkg.com/split.js/dist/split.min.js"></script>
-    
+
+    <!-- Configuration file for API Key -->
     <script src="config.js"></script>
+    <!-- Our Application Logic -->
     <script src="app.js"></script>
 </body>
 </html>
