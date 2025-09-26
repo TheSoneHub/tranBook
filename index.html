@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="my">
 <head>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DocuTranslate AI - V2</title>
     
@@ -14,17 +14,31 @@
 </head>
 <body>
 
-    <!-- Auth Screen (Login/Signup) -->
-    <div id="auth-screen">
-        <div class="auth-container">
+    <!-- Welcome Screen (No change) -->
+    <div id="welcome-screen">
+        <ul class="background-bubbles">
+           <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li>
+        </ul>
+        <div class="welcome-content">
+            <i class="fa-solid fa-book-open-reader welcome-icon"></i>
+            <h1>Welcome to DocuTranslate AI</h1>
+            <p>Break down language barriers. Read any document and translate on the fly with the power of AI.</p>
+            <button id="start-app-btn">Get Started <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Login Modal (NEW) -->
+    <div id="login-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close-btn">&times;</button>
             <div class="auth-header">
                 <i class="fa-solid fa-book-open-reader"></i>
-                <h1>DocuTranslate AI</h1>
+                <h1>Sign In / Up</h1>
             </div>
-            <p>Sign in to access your personal library.</p>
+            <p>Sign in to sync your library across all your devices.</p>
             <form id="login-form">
                 <input type="email" id="email-input" placeholder="Enter your email" required>
-                <button type="submit">Sign In / Sign Up</button>
+                <button type="submit">Send Magic Link</button>
             </form>
             <div id="auth-feedback" class="feedback"></div>
         </div>
@@ -48,11 +62,16 @@
                     <option value="English">Translate to English</option>
                 </select>
                 <button id="dark-mode-toggle" title="Toggle Dark Mode"><i class="fa-solid fa-moon"></i></button>
-                <div id="user-profile-menu">
-                    <button id="user-profile-btn"><i class="fa-solid fa-user"></i></button>
-                    <div id="user-dropdown" class="hidden">
-                        <div id="user-email-display"></div>
-                        <button id="logout-btn">Logout</button>
+                
+                <!-- User Profile / Login Button -->
+                <div id="user-controls">
+                    <button id="login-btn"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
+                    <div id="user-profile-menu" class="hidden">
+                        <button id="user-profile-btn"><i class="fa-solid fa-user"></i></button>
+                        <div id="user-dropdown" class="hidden">
+                            <div id="user-email-display"></div>
+                            <button id="logout-btn">Logout</button>
+                        </div>
                     </div>
                 </div>
             </div>

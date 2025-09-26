@@ -5,11 +5,17 @@ const { createClient } = supabase;
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // --- DOM ELEMENTS ---
-const authScreen = document.getElementById('auth-screen');
+const welcomeScreen = document.getElementById('welcome-screen');
+const startAppBtn = document.getElementById('start-app-btn');
+const loginModal = document.getElementById('login-modal');
+const loginBtn = document.getElementById('login-btn');
+const modalCloseBtn = document.querySelector('.modal-close-btn');
 const loginForm = document.getElementById('login-form');
 const emailInput = document.getElementById('email-input');
 const authFeedback = document.getElementById('auth-feedback');
 const appContainer = document.getElementById('app-container');
+const userControls = document.getElementById('user-controls');
+const userProfileMenu = document.getElementById('user-profile-menu');
 const userProfileBtn = document.getElementById('user-profile-btn');
 const userDropdown = document.getElementById('user-dropdown');
 const userEmailDisplay = document.getElementById('user-email-display');
@@ -33,6 +39,9 @@ const historyContent = document.getElementById('translation-history-content');
 const copyButton = document.getElementById('copy-button');
 const exportButton = document.getElementById('export-button');
 
+// --- DATABASE (Now handles both Local and Cloud) ---
+// Using the same IndexedDB from V1 as the primary source for guests
+const db = { /* ... No changes needed here, it's the same IndexedDB code from V1 ... */ };
 
 // --- STATE MANAGEMENT ---
 let translationLog = [];
@@ -42,33 +51,40 @@ let currentPdf = null;
 let currentUser = null;
 
 // --- INITIALIZATION ---
-document.addEventListener('DOMContentLoaded', () => {
-    checkUserSession();
-    initializeEventListeners();
-});
+document.addEventListener('DOMContentLoaded', async () => {
+    await db.init(); // Initialize local DB for everyone
+    startAppBtn.addEventListener('click', startApplication);
 
-async function checkUserSession() {
+    // Check for Supabase user session
     const { data: { session } } = await supabaseClient.auth.getSession();
     if (session) {
         currentUser = session.user;
-        startApplication();
-    } else {
-        authScreen.classList.remove('hidden');
-        appContainer.classList.add('hidden');
+        // If logged in, we might want to sync data. For now, we'll just show the user state.
     }
-}
+    
+    // Also check for theme preference
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        if(darkModeToggle) darkModeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+    }
+});
 
 function startApplication() {
-    authScreen.classList.add('hidden');
+    welcomeScreen.classList.add('fade-out');
     appContainer.classList.remove('hidden');
-    userEmailDisplay.textContent = currentUser.email;
+    appContainer.style.animation = 'fadeIn 0.5s ease forwards';
+    initializeUI();
+    updateUserUI();
     showLibraryView();
 }
 
-function initializeEventListeners() {
+function initializeUI() {
+    loginBtn.addEventListener('click', () => loginModal.classList.remove('hidden'));
+    modalCloseBtn.addEventListener('click', () => loginModal.classList.add('hidden'));
     loginForm.addEventListener('submit', handleLogin);
     logoutBtn.addEventListener('click', handleLogout);
     userProfileBtn.addEventListener('click', () => userDropdown.classList.toggle('hidden'));
+    // ... all other event listeners from V1 ...
     darkModeToggle.addEventListener('click', toggleDarkMode);
     fileInput.addEventListener('change', handleFileSelect);
     backToLibraryBtn.addEventListener('click', showLibraryView);
@@ -79,7 +95,18 @@ function initializeEventListeners() {
     pageNumInput.addEventListener('change', goToPage);
 }
 
-// --- AUTHENTICATION ---
+// --- AUTHENTICATION & UI UPDATES ---
+function updateUserUI() {
+    if (currentUser) {
+        loginBtn.classList.add('hidden');
+        userProfileMenu.classList.remove('hidden');
+        userEmailDisplay.textContent = currentUser.email;
+    } else {
+        loginBtn.classList.remove('hidden');
+        userProfileMenu.classList.add('hidden');
+    }
+}
+
 async function handleLogin(e) {
     e.preventDefault();
     const email = emailInput.value;
@@ -88,141 +115,59 @@ async function handleLogin(e) {
     if (error) {
         authFeedback.textContent = `Error: ${error.message}`;
     } else {
-        authFeedback.textContent = `Success! Please check your email for a login link.`;
+        authFeedback.textContent = `Success! Please check your email for a login link. This modal will close.`;
+        setTimeout(() => {
+            loginModal.classList.add('hidden');
+            authFeedback.textContent = '';
+        }, 3000);
     }
 }
 
 async function handleLogout() {
     await supabaseClient.auth.signOut();
     currentUser = null;
-    window.location.reload(); // Easiest way to reset state
+    updateUserUI();
+    showToast("You have been logged out.");
 }
 
-// --- VIEW MANAGEMENT ---
-async function renderLibraryView() {
-    libraryView.innerHTML = '';
-    const addBookCard = document.createElement('div');
-    addBookCard.className = 'add-book-card';
-    addBookCard.innerHTML = `<div class="book-card-icon"><i class="fa-solid fa-plus"></i></div><div class="book-card-title">Add New Book</div><div class="upload-progress"><div class="upload-progress-bar"></div></div>`;
-    addBookCard.onclick = () => fileInput.click();
-    libraryView.appendChild(addBookCard);
-
-    const { data: books, error } = await supabaseClient
-        .from('books')
-        .select('*')
-        .eq('user_id', currentUser.id)
-        .order('created_at', { ascending: false });
-
-    if (error) return showToast("Error fetching books.");
-    
-    books.forEach(book => {
-        const bookCard = document.createElement('div');
-        bookCard.className = 'book-card';
-        bookCard.innerHTML = `
-            <div class="book-card-icon"><i class="fa-solid fa-book"></i></div>
-            <div class="book-card-title">${book.book_name}</div>
-            <button class="delete-book-btn" title="Delete Book"><i class="fa-solid fa-trash-can"></i></button>
-        `;
-        bookCard.querySelector('.delete-book-btn').addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (confirm(`Are you sure you want to delete "${book.book_name}"?`)) {
-                deleteBook(book.id, book.file_path);
-            }
-        });
-        bookCard.addEventListener('click', () => openBook(book));
-        libraryView.appendChild(bookCard);
-    });
-}
-
-// ... other view management functions (openBook, showLibraryView, showDocumentView) are similar but will now use Supabase data ...
-// For brevity, only showing the core logic changes.
-
-// --- FILE & DATA HANDLING (SUPABASE) ---
-async function handleFileSelect(event) {
-    const file = event.target.files[0];
-    if (!file || !currentUser) return;
-
-    const addBookCard = document.querySelector('.add-book-card');
-    const progressBar = addBookCard.querySelector('.upload-progress-bar');
-    const progressContainer = addBookCard.querySelector('.upload-progress');
-    progressContainer.style.display = 'block';
-
-    const filePath = `${currentUser.id}/${Date.now()}-${file.name}`;
-
-    const { error: uploadError } = await supabaseClient.storage
-        .from('books')
-        .upload(filePath, file, {
-            cacheControl: '3600',
-            upsert: false
-        });
-
-    progressBar.style.width = '100%'; // For simplicity, just show complete
-
-    if (uploadError) {
-        showToast(`Upload failed: ${uploadError.message}`);
-        progressContainer.style.display = 'none';
-        return;
+// Listen for auth state changes (e.g., after clicking magic link)
+supabaseClient.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_IN') {
+        currentUser = session.user;
+        updateUserUI();
+        showToast(`Welcome, ${currentUser.email}!`);
+        // Here you would add logic to sync local books to the cloud
+    } else if (event === 'SIGNED_OUT') {
+        currentUser = null;
+        updateUserUI();
     }
+});
 
-    const { error: dbError } = await supabaseClient
-        .from('books')
-        .insert({
-            user_id: currentUser.id,
-            book_name: file.name,
-            file_path: filePath
-        });
+// --- VIEW & DATA HANDLING (Using Local DB) ---
+// This section now uses the local IndexedDB functions from V1 again.
+// All functions like renderLibraryView, openBook, handleFileSelect, deleteBook
+// should be the versions from the FINAL V1 code that use the `db.` helper object.
 
-    if (dbError) {
-        showToast(`Failed to save book to library: ${dbError.message}`);
-    } else {
+async function renderLibraryView() {
+    // This is the V1 function, it works for both guests and logged-in users (for now)
+    libraryView.innerHTML = ''; 
+    const books = await db.getBooks(); 
+    // ... rest of the V1 renderLibraryView function
+}
+
+async function handleFileSelect(event) {
+    // This is the V1 function
+    const file = event.target.files[0];
+    if (!file) return;
+    try {
+        await db.addBook(file);
         showToast(`"${file.name}" was added to your library.`);
         renderLibraryView();
+    } catch (error) {
+        showToast("Failed to add book to library.");
     }
-    
-    setTimeout(() => {
-        progressContainer.style.display = 'none';
-        progressBar.style.width = '0%';
-    }, 1000);
-
     fileInput.value = '';
 }
 
-async function deleteBook(bookId, filePath) {
-    // Delete from storage first
-    await supabaseClient.storage.from('books').remove([filePath]);
-    // Then delete from database
-    await supabaseClient.from('books').delete().eq('id', bookId);
-    showToast("Book deleted successfully.");
-    renderLibraryView();
-}
-
-async function openBook(book) {
-    const { data } = supabaseClient.storage.from('books').getPublicUrl(book.file_path);
-    const fileUrl = data.publicUrl;
-
-    // Fetch the file to treat it as a local File object
-    const response = await fetch(fileUrl);
-    const blob = await response.blob();
-    const file = new File([blob], book.book_name);
-
-    docViewer.innerHTML = '';
-    translationLog = [];
-    updateHistoryView();
-    showDocumentView();
-    
-    const extension = file.name.split('.').pop().toLowerCase();
-    if (extension === 'pdf') renderPdf(file);
-    else if (extension === 'docx') renderDocx(file);
-    else if (extension === 'epub') renderEpub(file);
-}
-
-
-// --- THE REST OF THE CODE (UI, Translation, etc.) is largely the same ---
-// No changes needed for:
-// - showLibraryView, showDocumentView (already handle null splitInstance)
-// - toggleDarkMode, handleTextSelection, handleTabClick
-// - getTranslation, handleCopy, handleExport, updateHistoryView
-// - goToPage, renderPdf, renderDocx, renderEpub, showToast
-
-// Make sure to include all those functions from the previous final version.
-// This is an abbreviated example focusing on the Supabase integration logic.
+// ... include all other functions from the FINAL V1 app.js. The logic inside them doesn't need to change for this step.
+// (getTranslation, copy, export, updateHistoryView, renderPdf, etc.)
