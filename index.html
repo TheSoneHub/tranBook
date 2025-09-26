@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In-App Document Translator</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Welcome Screen -->
+    <div id="welcome-screen">
+        <ul class="background-bubbles">
+           <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li>
+        </ul>
+        <div class="welcome-content">
+            <i class="fa-solid fa-book-open-reader welcome-icon"></i>
+            <h1>Welcome to DocuTranslate AI</h1>
+            <p>Break down language barriers. Read any document and translate on the fly with the power of AI.</p>
+            <button id="start-app-btn">Get Started <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Main Application Container (Initially Hidden) -->
+    <div id="app-container" class="hidden">
+        <header>
+            <div class="logo">
+                <button id="back-to-library-btn" class="hidden"><i class="fa-solid fa-arrow-left"></i> Library</button>
+                <i class="fa-solid fa-book-open-reader"></i>
+                <h1>DocuTranslate AI</h1>
+            </div>
+            <div class="controls">
+                <!-- NEW: Go to Page Navigation for PDFs -->
+                <div id="page-nav-container" class="hidden">
+                    <input type="number" id="page-num-input" min="1">
+                    <span id="page-count">/ 1</span>
+                </div>
+                <select id="language-select">
+                    <option value="Burmese" selected>Translate to Burmese</option>
+                    <option value="English">Translate to English</option>
+                    <option value="Japanese">Translate to Japanese</option>
+                </select>
+                <button id="dark-mode-toggle" title="Toggle Dark Mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="main-container">
+            <!-- Left Pane - Library or Document Viewer -->
+            <div id="left-pane" class="split">
+                <div id="library-view"></div>
+                <div id="document-viewer" class="hidden"></div>
+            </div>
+
+            <!-- Right Pane - Translation Panel -->
+            <div id="translation-panel" class="split">
+                <div class="tab-container">
+                    <button class="tab-button active" data-tab="current-translation-content">Translation</button>
+                    <button class="tab-button" data-tab="translation-history-content">History</button>
+                </div>
+                <div class="tab-content-wrapper">
+                    <div id="current-translation-content" class="tab-content active">
+                        <div class="placeholder">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <p>Select text from a document to see the translation here.</p>
+                        </div>
+                    </div>
+                    <div id="translation-history-content" class="tab-content"></div>
+                </div>
+                <div class="actions">
+                    <button id="copy-button" disabled><i class="fa-regular fa-copy"></i> Copy</button>
+                    <button id="export-button" disabled><i class="fa-solid fa-download"></i> Export History</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <div id="toast-container"></div>
+    <input type="file" id="file-input" class="file-input-hidden" accept=".pdf, .docx, .epub">
+
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docx-preview@0.1.15/dist/docx-preview.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+    <script src="https://unpkg.com/split.js/dist/split.min.js"></script>
+
+    <!-- Configuration file for API Key -->
+    <script src="config.js"></script>
+    <!-- Our Application Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
