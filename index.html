@@ -14,7 +14,7 @@
 </head>
 <body>
 
-    <!-- Welcome Screen (No change) -->
+    <!-- Welcome Screen -->
     <div id="welcome-screen">
         <ul class="background-bubbles">
            <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li>
@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    <!-- Login Modal (NEW) -->
+    <!-- Login Modal -->
     <div id="login-modal" class="modal-overlay hidden">
         <div class="modal-content">
             <button class="modal-close-btn">&times;</button>
@@ -62,8 +62,6 @@
                     <option value="English">Translate to English</option>
                 </select>
                 <button id="dark-mode-toggle" title="Toggle Dark Mode"><i class="fa-solid fa-moon"></i></button>
-                
-                <!-- User Profile / Login Button -->
                 <div id="user-controls">
                     <button id="login-btn"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
                     <div id="user-profile-menu" class="hidden">
@@ -78,12 +76,10 @@
         </header>
 
         <main class="main-container">
-            <!-- Left Pane - Library or Document Viewer -->
             <div id="left-pane" class="split">
                 <div id="library-view"></div>
                 <div id="document-viewer" class="hidden"></div>
             </div>
-            <!-- Right Pane - Translation Panel -->
             <div id="translation-panel" class="split">
                 <div class="tab-container">
                     <button class="tab-button active" data-tab="current-translation-content">Translation</button>
@@ -104,9 +100,7 @@
     <div id="toast-container"></div>
     <input type="file" id="file-input" class="file-input-hidden" accept=".pdf, .docx, .epub">
 
-    <!-- Supabase Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/docx-preview@0.1.15/dist/docx-preview.js"></script>
@@ -114,7 +108,6 @@
     <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
     <script src="https://unpkg.com/split.js/dist/split.min.js"></script>
     
-    <!-- Config & App Logic -->
     <script src="config.js"></script>
     <script src="app.js"></script>
 </body>

@@ -1,54 +1,90 @@
 /* --- CSS Variables & General --- */
-:root { /* ... No changes ... */ }
-body.dark-mode { /* ... No changes ... */ }
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f7f7f8;
+    --bg-tertiary: #e9e9e9;
+    --text-primary: #212121;
+    --text-secondary: #666666;
+    --border-color: #e0e0e0;
+    --accent-color: #007bff;
+    --accent-color-hover: #0056b3;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+    --font-ui: 'Inter', 'Padauk', sans-serif;
+    --font-content: 'Merriweather', 'Padauk', serif;
+}
+body.dark-mode {
+    --bg-primary: #1e1e1e;
+    --bg-secondary: #252526;
+    --bg-tertiary: #333333;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --border-color: #3f3f3f;
+    --accent-color: #3a9cff;
+    --accent-color-hover: #5aa9ff;
+    --shadow-color: rgba(0, 0, 0, 0.2);
+}
 .hidden { display: none !important; }
-body { /* ... No changes ... */ }
+body {
+    font-family: var(--font-ui);
+    margin: 0;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease;
+    overflow: hidden;
+}
 
-/* --- Welcome Screen --- */
-#welcome-screen { /* ... No changes ... */ }
-.welcome-content { /* ... No changes ... */ }
-.welcome-icon { /* ... No changes ... */ }
-#welcome-screen h1 { /* ... No changes ... */ }
-#welcome-screen p { /* ... No changes ... */ }
-#start-app-btn { /* ... No changes ... */ }
+/* --- Welcome Screen (FIXED) --- */
+#welcome-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: var(--bg-primary);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+    overflow: hidden;
+}
+.welcome-content { text-align: center; max-width: 500px; padding: 20px; z-index: 2; }
+.welcome-icon { font-size: 4em; color: var(--accent-color); }
+#welcome-screen h1 { font-family: var(--font-ui); font-size: 2.5em; margin: 20px 0 10px; }
+#welcome-screen p { font-family: var(--font-ui); font-size: 1.1em; color: var(--text-secondary); line-height: 1.6; margin-bottom: 30px; }
+#start-app-btn { font-size: 1.2em; padding: 12px 30px; background-color: var(--accent-color); color: white; border: none; border-radius: 8px; font-weight: 500; cursor: pointer; }
 
-/* --- Login Modal (NEW) --- */
+/* --- Login Modal --- */
 .modal-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background-color: rgba(0,0,0,0.6);
-    display: flex; justify-content: center; align-items: center;
-    z-index: 1000;
+    display: flex; justify-content: center; align-items: center; z-index: 1000;
 }
 .modal-content {
-    background-color: var(--bg-primary);
-    padding: 30px; border-radius: 12px;
-    max-width: 400px; width: 100%;
-    position: relative; text-align: center;
+    background-color: var(--bg-primary); padding: 30px; border-radius: 12px;
+    max-width: 400px; width: 100%; position: relative; text-align: center;
 }
 .modal-close-btn {
-    position: absolute; top: 10px; right: 10px;
-    background: none; border: none; font-size: 1.5em;
-    cursor: pointer; color: var(--text-secondary);
+    position: absolute; top: 10px; right: 10px; background: none; border: none;
+    font-size: 1.5em; cursor: pointer; color: var(--text-secondary);
 }
-.auth-header { /* ... Same as before ... */ }
-.auth-header i { /* ... Same as before ... */ }
-.auth-header h1 { /* ... Same as before ... */ }
+.auth-header { display: flex; justify-content: center; align-items: center; gap: 16px; margin-bottom: 16px; }
+.auth-header i { font-size: 2.5em; color: var(--accent-color); }
+.auth-header h1 { font-size: 2em; margin: 0; }
 #login-modal p { color: var(--text-secondary); margin-bottom: 24px; }
 #login-form { display: flex; flex-direction: column; gap: 16px; }
 #login-form input { padding: 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 1em; background-color: var(--bg-secondary); color: var(--text-primary); }
 #login-form button { padding: 12px; border: none; border-radius: 6px; background-color: var(--accent-color); color: white; font-size: 1em; cursor: pointer; font-weight: 500; }
 .feedback { margin-top: 16px; font-size: 0.9em; }
 
-
 /* --- Main App Container & Header --- */
-#app-container { /* ... No changes ... */ }
-header { /* ... No changes ... */ }
-.logo { /* ... No changes ... */ }
-.logo i { /* ... No changes ... */ }
-header h1 { /* ... No changes ... */ }
-.controls { /* ... No changes ... */ }
+#app-container { display: flex; flex-direction: column; height: 100vh; }
+header {
+    background-color: var(--bg-primary); padding: 12px 24px; border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px var(--shadow-color);
+    display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.logo { display: flex; align-items: center; gap: 16px; }
+.logo i { color: var(--accent-color); font-size: 1.8em; }
+header h1 { margin: 0; font-size: 1.5em; font-weight: 700; }
+.controls { display: flex; align-items: center; gap: 16px; }
 
-/* --- User Controls / Profile Menu --- */
+/* --- User Profile Menu --- */
 #user-profile-menu { position: relative; }
 #user-profile-btn { width: 40px; height: 40px; padding: 0; font-size: 1.2em; border-radius: 50%; justify-content: center; }
 #user-dropdown {
@@ -60,5 +96,78 @@ header h1 { /* ... No changes ... */ }
 #user-email-display { padding: 12px; font-size: 0.9em; border-bottom: 1px solid var(--border-color); color: var(--text-secondary); }
 #logout-btn { width: 100%; border: none; background: none; text-align: left; }
 
-/* ... The rest of the CSS is the same as the final V1 version ... */
-/* All styles for main-container, split, left-pane, translation-panel, buttons, library, etc. remain unchanged. */
+.main-container { display: flex; flex-grow: 1; overflow: hidden; position: relative; }
+.split { overflow-y: auto; box-sizing: border-box; }
+#left-pane { padding: 24px; background-color: var(--bg-secondary); position: relative; }
+#left-pane.full-width { width: 100% !important; flex-basis: 100% !important; }
+#document-viewer { height: 100%; font-family: var(--font-content); }
+#translation-panel { background-color: var(--bg-primary); display: flex; flex-direction: column; overflow: hidden; padding: 0; transition: background-color 0.3s ease; }
+.file-input-hidden { display: none; }
+button, #language-select {
+    padding: 8px 16px; border: 1px solid var(--border-color); border-radius: 6px;
+    background-color: var(--bg-primary); color: var(--text-primary);
+    font-family: var(--font-ui); font-size: 0.9em; cursor: pointer;
+    transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 8px;
+}
+button:hover:not(:disabled) { background-color: var(--bg-secondary); border-color: var(--accent-color); }
+button:disabled { cursor: not-allowed; opacity: 0.6; }
+#dark-mode-toggle { width: 40px; height: 40px; padding: 0; font-size: 1.2em; border-radius: 50%; justify-content: center; }
+#page-nav-container { display: flex; align-items: center; gap: 4px; }
+#page-num-input { width: 50px; padding: 8px; border-radius: 6px; border: 1px solid var(--border-color); background-color: var(--bg-secondary); color: var(--text-primary); text-align: center; font-family: var(--font-ui); }
+#page-count { font-size: 0.9em; color: var(--text-secondary); }
+#library-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+.book-card, .add-book-card { background-color: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 8px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.2s ease; display: flex; flex-direction: column; justify-content: space-between; min-height: 150px; position: relative; }
+.book-card:hover, .add-book-card:hover { transform: translateY(-5px); box-shadow: 0 4px 15px var(--shadow-color); }
+.add-book-card { border-style: dashed; color: var(--text-secondary); }
+.add-book-card .upload-progress { width: 100%; height: 5px; background-color: var(--bg-tertiary); margin-top: 10px; border-radius: 3px; display: none; }
+.add-book-card .upload-progress-bar { width: 0%; height: 100%; background-color: var(--accent-color); border-radius: 3px; transition: width 0.2s; }
+.book-card-icon { font-size: 3em; color: var(--accent-color); margin-bottom: 12px; }
+.book-card-title { font-weight: 500; word-break: break-word; }
+.delete-book-btn { position: absolute; top: 5px; right: 5px; background: none; border: none; font-size: 1.1em; color: var(--text-secondary); cursor: pointer; padding: 5px; }
+.delete-book-btn:hover { color: #f44336; }
+.tab-container { display: flex; border-bottom: 1px solid var(--border-color); flex-shrink: 0; }
+.tab-button { flex: 1; padding: 12px; border: none; border-bottom: 3px solid transparent; border-radius: 0; background-color: transparent; font-weight: 500; }
+.tab-button.active { border-bottom-color: var(--accent-color); color: var(--accent-color); }
+.tab-content-wrapper { flex: 1; min-height: 0; overflow-y: auto; position: relative; }
+.tab-content { display: none; padding: 20px; height: 100%; box-sizing: border-box; }
+.tab-content.active { display: flex; flex-direction: column; }
+#current-translation-content { font-size: 1.1em; line-height: 1.7; }
+.placeholder { flex-direction: column; justify-content: center; align-items: center; height: 100%; text-align: center; color: var(--text-secondary); }
+.placeholder i { font-size: 3em; margin-bottom: 16px; }
+.actions { padding: 12px 20px; border-top: 1px solid var(--border-color); background: var(--bg-secondary); display: flex; gap: 12px; flex-shrink: 0; }
+.actions button { flex-grow: 1; justify-content: center; }
+#translation-history-content .history-item { border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 15px; opacity: 0; transform: translateY(20px); animation: fadeIn 0.5s ease forwards; }
+.history-item .original-text { color: var(--text-secondary); font-size: 0.9em; margin-bottom: 8px; font-style: italic; }
+.page-container { position: relative; margin: 20px auto; box-shadow: 0 2px 10px var(--shadow-color); background-color: #fff; }
+.page-container canvas { display: block; }
+.textLayer { position: absolute; left: 0; top: 0; right: 0; bottom: 0; line-height: 1.0; }
+.textLayer > span { color: transparent; position: absolute; white-space: pre; cursor: text; transform-origin: 0% 0%; }
+.gutter { background-color: var(--bg-tertiary); background-repeat: no-repeat; background-position: 50%; transition: background-color 0.3s ease; }
+.gutter.gutter-horizontal { background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxl79uzZQAJKKKaBwWIoPhsAhQAAFvA/3sc2TCgAAAAASUVORK5CYII='); cursor: col-resize; z-index: 100 !important; }
+.loader { margin: 20px auto; border: 4px solid var(--bg-tertiary); border-top: 4px solid var(--accent-color); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+#toast-container { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; }
+.toast { background-color: #333; color: #fff; padding: 12px 20px; border-radius: 6px; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); animation: toast-in 0.5s, toast-out 0.5s 2.5s; }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes toast-in { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes toast-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.fade-out { opacity: 0; visibility: hidden; }
+
+/* --- Animated Welcome Screen Background --- */
+.background-bubbles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; margin: 0; padding: 0; }
+.background-bubbles li {
+    position: absolute; display: block; list-style: none; width: 20px; height: 20px;
+    background: var(--accent-color); animation: animate-bubbles 25s linear infinite;
+    bottom: -150px; opacity: 0.2;
+}
+.background-bubbles li:nth-child(1){ left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+.background-bubbles li:nth-child(2){ left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+.background-bubbles li:nth-child(3){ left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
+.background-bubbles li:nth-child(4){ left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
+.background-bubbles li:nth-child(5){ left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
+.background-bubbles li:nth-child(6){ left: 75%; width: 110px; height: 110px; animation-delay: 3s; }
+.background-bubbles li:nth-child(7){ left: 35%; width: 150px; height: 150px; animation-delay: 7s; }
+.background-bubbles li:nth-child(8){ left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
+.background-bubbles li:nth-child(9){ left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
+.background-bubbles li:nth-child(10){ left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
+@keyframes animate-bubbles { 0%{ transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 0; } 100%{ transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; } }
