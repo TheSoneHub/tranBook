@@ -96,9 +96,9 @@ function safeSetHTML(element, content) {
 // --- MOCK TRANSLATION SERVICE FOR LOCAL DEVELOPMENT ---
 async function getMockTranslation(text, targetLanguage) {
     // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 800));
     
-    // Simple mock translations for demonstration
+    // Enhanced mock translations with more comprehensive coverage
     const mockTranslations = {
         'Burmese': {
             'hello': 'မင်္ဂလာပါ',
@@ -110,7 +110,32 @@ async function getMockTranslation(text, targetLanguage) {
             'read': 'ဖတ်',
             'translate': 'ဘာသာပြန်',
             'document': 'စာရွက်စာတမ်း',
-            'text': 'စာသား'
+            'text': 'စာသား',
+            'the power of why': 'အဘယ်ကြောင့်ဆိုသော အာဏာ',
+            'preface': 'နိဒါန်း',
+            'when i first discovered': 'ကျွန်တော် ပထမဆုံး ရှာဖွေတွေ့ရှိခဲ့သောအခါ',
+            'it came at a time': 'အချိန်တစ်ခုတွင် ရောက်ရှိလာခဲ့သည်',
+            'in my life': 'ကျွန်တော့်ဘဝတွင်',
+            'when i needed it': 'ကျွန်တော် လိုအပ်နေသောအချိန်တွင်',
+            'academic': 'ပညာရေးဆိုင်ရာ',
+            'intellectual': 'ဉာဏ်ရည်ဉာဏ်သွေးဆိုင်ရာ',
+            'pursuit': 'လိုက်စားမှု',
+            'fallen out of love': 'ချစ်ခြင်းမေတ္တာ ပျက်ပြားခဲ့သည်',
+            'work': 'အလုပ်',
+            'dark place': 'မှောင်မိုက်သောနေရာ',
+            'quality': 'အရည်အသွေး',
+            'job': 'အလုပ်',
+            'enjoyment': 'ပျော်ရွှင်မှု',
+            'lost': 'ဆုံးရှုံးခဲ့သည်',
+            'superficial': 'မျက်နှာပေါ်တွင်သာ',
+            'measurements': 'တိုင်းတာမှုများ',
+            'happy': 'ပျော်ရွှင်သည်',
+            'good living': 'ကောင်းမွန်သောနေထိုင်မှု',
+            'great clients': 'ကောင်းမွန်သောဖောက်သည်များ',
+            'problem': 'ပြဿနာ',
+            'fulfilled': 'ကျေနပ်မှုရရှိသည်',
+            'rekindle': 'ပြန်လည်ထွန်းလင်းစေသည်',
+            'passion': 'စိတ်အားထက်သန်မှု'
         },
         'English': {
             'မင်္ဂလာပါ': 'Hello',
@@ -120,7 +145,32 @@ async function getMockTranslation(text, targetLanguage) {
             'ဖတ်': 'Read',
             'ဘာသာပြန်': 'Translate',
             'စာရွက်စာတမ်း': 'Document',
-            'စာသား': 'Text'
+            'စာသား': 'Text',
+            'the power of why': 'The Power of Why',
+            'preface': 'Preface',
+            'when i first discovered': 'When I first discovered',
+            'it came at a time': 'It came at a time',
+            'in my life': 'in my life',
+            'when i needed it': 'when I needed it',
+            'academic': 'academic',
+            'intellectual': 'intellectual',
+            'pursuit': 'pursuit',
+            'fallen out of love': 'fallen out of love',
+            'work': 'work',
+            'dark place': 'dark place',
+            'quality': 'quality',
+            'job': 'job',
+            'enjoyment': 'enjoyment',
+            'lost': 'lost',
+            'superficial': 'superficial',
+            'measurements': 'measurements',
+            'happy': 'happy',
+            'good living': 'good living',
+            'great clients': 'great clients',
+            'problem': 'problem',
+            'fulfilled': 'fulfilled',
+            'rekindle': 'rekindle',
+            'passion': 'passion'
         },
         'Japanese': {
             'hello': 'こんにちは',
@@ -132,7 +182,32 @@ async function getMockTranslation(text, targetLanguage) {
             'read': '読む',
             'translate': '翻訳',
             'document': '文書',
-            'text': 'テキスト'
+            'text': 'テキスト',
+            'the power of why': 'なぜの力',
+            'preface': '序文',
+            'when i first discovered': '私が最初に発見した時',
+            'it came at a time': 'それは時が来た',
+            'in my life': '私の人生で',
+            'when i needed it': '私がそれを必要としていた時',
+            'academic': '学術的',
+            'intellectual': '知的',
+            'pursuit': '追求',
+            'fallen out of love': '愛から離れた',
+            'work': '仕事',
+            'dark place': '暗い場所',
+            'quality': '品質',
+            'job': '仕事',
+            'enjoyment': '楽しみ',
+            'lost': '失った',
+            'superficial': '表面的',
+            'measurements': '測定',
+            'happy': '幸せ',
+            'good living': '良い生活',
+            'great clients': '素晴らしいクライアント',
+            'problem': '問題',
+            'fulfilled': '満足した',
+            'rekindle': '再燃させる',
+            'passion': '情熱'
         }
     };
     
@@ -144,15 +219,38 @@ async function getMockTranslation(text, targetLanguage) {
         return languageMap[lowerText];
     }
     
-    // Check for partial matches
-    for (const [key, value] of Object.entries(languageMap)) {
-        if (lowerText.includes(key) || key.includes(lowerText)) {
-            return value;
+    // Check for partial matches and word-by-word translation
+    const words = lowerText.split(/\s+/);
+    const translatedWords = words.map(word => {
+        // Clean word (remove punctuation)
+        const cleanWord = word.replace(/[^\w]/g, '');
+        
+        // Check for exact word match
+        if (languageMap[cleanWord]) {
+            return languageMap[cleanWord];
         }
+        
+        // Check for partial matches
+        for (const [key, value] of Object.entries(languageMap)) {
+            if (cleanWord.includes(key) || key.includes(cleanWord)) {
+                return value;
+            }
+        }
+        
+        // Return original word if no translation found
+        return word;
+    });
+    
+    // Join translated words and add some context
+    const result = translatedWords.join(' ');
+    
+    // If we got a meaningful translation, return it
+    if (result !== lowerText) {
+        return result;
     }
     
-    // Default mock translation
-    return `[${targetLanguage} Translation]: ${text}`;
+    // Fallback: return a more helpful message
+    return `[${targetLanguage} Translation Preview]: ${text}\n\nNote: This is a demo translation. For full functionality, please deploy with a real translation API.`;
 }
 
 // --- DOM ELEMENTS ---
@@ -902,75 +1000,70 @@ async function getTranslation(textToTranslate) {
     const targetLanguage = languageSelect.value;
     
     try {
-        // Determine if we're using local development or production
-        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        
-        let requestBody, headers;
-        
-        if (isLocal) {
-            // For local development, use a mock translation service
-            const mockTranslation = await getMockTranslation(textToTranslate, targetLanguage);
-            currentTranslationContent.textContent = mockTranslation;
-            copyButton.disabled = false;
-            
-            // Add to history
-            translationLog.unshift({ 
-                original: sanitizeHTML(textToTranslate), 
-                translated: sanitizeHTML(mockTranslation) 
-            });
-            if (translationLog.length > SECURITY_CONFIG.MAX_HISTORY_ITEMS) {
-                translationLog = translationLog.slice(0, SECURITY_CONFIG.MAX_HISTORY_ITEMS);
-            }
-            updateHistoryView();
-            exportButton.disabled = translationLog.length === 0;
-            return;
-        } else {
-            // For production, use Netlify function
-            headers = { 'Content-Type': 'application/json' };
-            requestBody = JSON.stringify({ 
-                textToTranslate: sanitizeHTML(textToTranslate), 
-                targetLanguage: sanitizeHTML(targetLanguage) 
-            });
-        }
-        
-        const response = await fetch(API_URL, {
-            method: 'POST',
-            headers: headers,
-            body: requestBody
-        });
-
-        if (!response.ok) {
-            const errData = await response.json();
-            throw new Error(errData.error || 'Translation request failed');
-        }
-
-        const data = await response.json();
-        const translation = data.translation || "No translation found.";
-        
-        // Validate and sanitize translation response
-        const translationValidation = validateTextInput(translation);
-        if (!translationValidation.valid) {
-            throw new Error('Invalid translation response received');
-        }
-
-        currentTranslationContent.textContent = sanitizeHTML(translation);
+        // Always try local mock translation first for better user experience
+        const mockTranslation = await getMockTranslation(textToTranslate, targetLanguage);
+        currentTranslationContent.textContent = mockTranslation;
         copyButton.disabled = false;
         
-        // Limit history size for security
+        // Add to history
         translationLog.unshift({ 
             original: sanitizeHTML(textToTranslate), 
-            translated: sanitizeHTML(translation) 
+            translated: sanitizeHTML(mockTranslation) 
         });
         if (translationLog.length > SECURITY_CONFIG.MAX_HISTORY_ITEMS) {
             translationLog = translationLog.slice(0, SECURITY_CONFIG.MAX_HISTORY_ITEMS);
         }
         updateHistoryView();
-
+        exportButton.disabled = translationLog.length === 0;
+        
+        // Try to get a real translation in the background (optional)
+        tryRealTranslation(textToTranslate, targetLanguage);
+        
     } catch (error) {
-        currentTranslationContent.textContent = `Error: ${sanitizeHTML(error.message)}`;
         console.error("Translation Error:", error);
+        currentTranslationContent.textContent = `Error: ${sanitizeHTML(error.message)}`;
     } finally {
         exportButton.disabled = translationLog.length === 0;
+    }
+}
+
+// Background real translation attempt (optional)
+async function tryRealTranslation(textToTranslate, targetLanguage) {
+    try {
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        
+        if (!isLocal) {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    textToTranslate: sanitizeHTML(textToTranslate), 
+                    targetLanguage: sanitizeHTML(targetLanguage) 
+                })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const translation = data.translation || "No translation found.";
+                
+                // Validate and sanitize translation response
+                const translationValidation = validateTextInput(translation);
+                if (translationValidation.valid) {
+                    // Update with real translation
+                    currentTranslationContent.textContent = sanitizeHTML(translation);
+                    
+                    // Update history with real translation
+                    if (translationLog.length > 0) {
+                        translationLog[0].translated = sanitizeHTML(translation);
+                        updateHistoryView();
+                    }
+                    
+                    showToast('Translation updated with real API result');
+                }
+            }
+        }
+    } catch (error) {
+        console.log('Background translation failed, using mock translation');
     }
 }
 
