@@ -1,9 +1,12 @@
 // Store your API Key here.
 // This file SHOULD NOT be committed to version control (e.g., GitHub).
+// Use environment variables or secure configuration management in production.
 
-const GOOGLE_AI_API_KEY = 'AIzaSyByjG19th6jkJW_2cnTKk6hmgFcSZD4C6I';
+// SECURITY WARNING: This API key should be stored securely and never exposed in client-side code
+// Consider using server-side proxy or environment variables for production deployment
+const GOOGLE_AI_API_KEY = process.env.GOOGLE_AI_API_KEY || 'YOUR_API_KEY_HERE';
 
-
-// --- SUPABASE CONFIG ---
-const SUPABASE_URL = 'https://rizpslwazrylagnftfcm.supabase.co'; // From API settings
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpenBzbHdhenJ5bGFnbmZ0ZmNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg5MDkxNjIsImV4cCI6MjA3NDQ4NTE2Mn0.HlpbZj3EAy_Jm3uY_JDnA4mdYyx0JEmuYIYvTrhhjic'; // From API settings
+// Validate API key format
+if (GOOGLE_AI_API_KEY === 'YOUR_API_KEY_HERE') {
+    console.warn('⚠️ SECURITY WARNING: Default API key detected. Please set your actual API key.');
+}
