@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>In-App Document Translator</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Padauk:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Welcome Screen -->
+    <div id="welcome-screen">
+        <ul class="background-bubbles">
+           <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li> <li></li>
+        </ul>
+        <div class="welcome-content">
+            <i class="fa-solid fa-book-open-reader welcome-icon"></i>
+            <h1>Welcome to My TranBook</h1>
+            <p>Break down language barriers. Read any document and translate on the fly with the power of AI.</p>
+            <button id="start-app-btn">Get Started <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Main Application Container (Initially Hidden) -->
+    <div id="app-container" class="hidden">
+        <header>
+            <div class="logo">
+                <button id="back-to-library-btn" class="hidden"><i class="fa-solid fa-arrow-left"></i> Library</button>
+                <i class="fa-solid fa-book-open-reader"></i>
+                <h1>DocuTranslate AI</h1>
+            </div>
+                <!-- Settings Button -->
+                <button id="settings-btn" title="Settings" style="margin-left: 12px; padding: 6px 12px;">
+                    <i class="fa-solid fa-gear"></i> Settings
+                </button>
+            <div class="controls">
+                <!-- NEW: Go to Page Navigation for PDFs -->
+                <div id="page-nav-container" class="hidden">
+                    <label for="page-num-input" style="margin-right:6px;font-weight:500;">Page Finder:</label>
+                    <input type="number" id="page-num-input" min="1">
+                    <span id="page-count">/ 1</span>
+                </div>
+
+                    <!-- Settings Modal -->
+                    <div id="settings-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35); z-index:9999; align-items:center; justify-content:center;">
+                        <div style="background:#fff; padding:32px 24px; border-radius:10px; min-width:320px; max-width:90vw; box-shadow:0 2px 16px rgba(0,0,0,0.18); position:relative;">
+                            <button id="close-settings-btn" style="position:absolute; top:12px; right:12px; background:none; border:none; font-size:1.3em; cursor:pointer; color:#333;">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                            <h2 style="margin-bottom:18px; font-size:1.3em;">Settings</h2>
+                            <div id="api-key-container" style="margin: 10px 0; display: flex; align-items: center; gap: 8px;">
+                                <input type="password" id="api-key-input" placeholder="Enter Google AI Studio API Key" style="padding: 6px; width: 260px;" />
+                                <button id="save-api-key-btn" style="padding: 6px 12px;">Save API Key</button>
+                                <span id="api-key-status" style="font-size: 0.95em; color: #4caf50; margin-left: 8px;"></span>
+                            </div>
+                        </div>
+                    </div>
+                <select id="language-select">
+                    <option value="Burmese" selected>Translate to Burmese</option>
+                    <option value="English">Translate to English</option>
+                    <option value="Japanese">Translate to Japanese</option>
+                </select>
+                <button id="dark-mode-toggle" title="Toggle Dark Mode">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="main-container">
+            <!-- Left Pane - Library or Document Viewer -->
+            <div id="left-pane" class="split">
+                <div id="library-view"></div>
+                <div id="document-viewer" class="hidden"></div>
+            </div>
+
+            <!-- Right Pane - Translation Panel -->
+            <div id="translation-panel" class="split">
+                <div class="tab-container">
+                    <button class="tab-button active" data-tab="current-translation-content">Translation</button>
+                    <button class="tab-button" data-tab="translation-history-content">History</button>
+                </div>
+                <div class="tab-content-wrapper">
+                    <div id="current-translation-content" class="tab-content active">
+                        <div class="placeholder">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <p>Select text from a document to see the translation here.</p>
+                        </div>
+                    </div>
+                    <div id="translation-history-content" class="tab-content"></div>
+                </div>
+                <div class="actions">
+                    <button id="copy-button" disabled><i class="fa-regular fa-copy"></i> Copy</button>
+                    <button id="export-button" disabled><i class="fa-solid fa-download"></i> Export History</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <div id="toast-container"></div>
+    <input type="file" id="file-input" class="file-input-hidden" accept=".pdf, .docx, .epub">
+
+    <!-- External Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docx-preview@0.1.15/dist/docx-preview.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/epubjs/dist/epub.min.js"></script>
+    <script src="https://unpkg.com/split.js/dist/split.min.js"></script>
+
+    <!-- Configuration file for API Key -->
+    <script src="config.js"></script>
+    <!-- Our Application Logic -->
+    <script src="app.js"></script>
+    <script>
+    // Settings modal logic
+    const settingsBtn = document.getElementById('settings-btn');
+    const settingsModal = document.getElementById('settings-modal');
+    const closeSettingsBtn = document.getElementById('close-settings-btn');
+
+    settingsBtn.addEventListener('click', () => {
+        settingsModal.style.display = 'flex';
+    });
+    closeSettingsBtn.addEventListener('click', () => {
+        settingsModal.style.display = 'none';
+    });
+    window.addEventListener('click', (e) => {
+        if (e.target === settingsModal) settingsModal.style.display = 'none';
+    });
+
+    // API Key input logic
+    const apiKeyInput = document.getElementById('api-key-input');
+    const saveApiKeyBtn = document.getElementById('save-api-key-btn');
+    const apiKeyStatus = document.getElementById('api-key-status');
+
+    // Load API key from localStorage on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        const storedKey = localStorage.getItem('google_ai_studio_api_key');
+        if (storedKey) {
+            apiKeyInput.value = storedKey;
+            apiKeyStatus.textContent = 'API Key loaded.';
+        }
+    });
+
+    // Save API key to localStorage
+    saveApiKeyBtn.addEventListener('click', () => {
+        const key = apiKeyInput.value.trim();
+        if (key) {
+            localStorage.setItem('google_ai_studio_api_key', key);
+            apiKeyStatus.textContent = 'API Key saved!';
+            apiKeyStatus.style.color = '#4caf50';
+            // Reload the page to ensure the new key is used immediately
+            setTimeout(() => window.location.reload(), 600);
+        } else {
+            apiKeyStatus.textContent = 'Please enter a valid API Key.';
+            apiKeyStatus.style.color = '#f44336';
+        }
+    });
+    </script>
+</body>
+</html>
