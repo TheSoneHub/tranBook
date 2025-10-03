@@ -37,122 +37,21 @@ body {
     overflow: hidden;
 }
 
-<<<<<<< HEAD
 /* --- Welcome Screen --- */
 #welcome-screen {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background-color: var(--bg-primary);
-=======
-/* --- Welcome Screen with Floating Design --- */
-#welcome-screen {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
->>>>>>> 4da0c2129ebf320e63e6b55c0d9a539a214fe08d
     display: flex; justify-content: center; align-items: center;
     z-index: 1000;
     transition: opacity 0.5s ease, visibility 0.5s ease;
     overflow: hidden;
 }
-<<<<<<< HEAD
 .welcome-content { text-align: center; max-width: 500px; padding: 20px; z-index: 2; }
 .welcome-icon { font-size: 4em; color: var(--accent-color); }
 #welcome-screen h1 { font-size: 2.5em; margin: 20px 0 10px; }
 #welcome-screen p { font-size: 1.1em; color: var(--text-secondary); line-height: 1.6; margin-bottom: 30px; }
 #start-app-btn { font-size: 1.2em; padding: 12px 30px; background-color: var(--accent-color); color: white; border: none; border-radius: 8px; font-weight: 500; }
 #start-app-btn:hover { background-color: var(--accent-color-hover); border-color: transparent; }
-=======
-
-.welcome-content { 
-    text-align: center; 
-    max-width: 600px; 
-    padding: 40px; 
-    z-index: 2;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border-radius: 24px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    animation: floatIn 1s ease-out;
-}
-
-@keyframes floatIn {
-    from {
-        opacity: 0;
-        transform: translateY(50px) scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.welcome-icon { 
-    font-size: 5em; 
-    color: white; 
-    margin-bottom: 20px;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-
-#welcome-screen h1 { 
-    font-size: 3em; 
-    margin: 20px 0 15px; 
-    color: white;
-    font-weight: 700;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-#welcome-screen p { 
-    font-size: 1.2em; 
-    color: rgba(255, 255, 255, 0.9); 
-    line-height: 1.6; 
-    margin-bottom: 40px;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-#start-app-btn { 
-    font-size: 1.3em; 
-    padding: 16px 40px; 
-    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-    color: white; 
-    border: none; 
-    border-radius: 50px; 
-    font-weight: 600;
-    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
-    transition: all 0.3s ease;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-}
-
-#start-app-btn:hover { 
-    transform: translateY(-2px);
-    box-shadow: 0 12px 25px rgba(255, 107, 107, 0.6);
-}
-
-#start-app-btn:active {
-    transform: translateY(0);
-}
-
-#start-app-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s;
-}
-
-#start-app-btn:hover::before {
-    left: 100%;
-}
->>>>>>> 4da0c2129ebf320e63e6b55c0d9a539a214fe08d
 
 /* --- Main App Container --- */
 #app-container { display: flex; flex-direction: column; height: 100vh; }
@@ -172,17 +71,7 @@ header h1 { margin: 0; font-size: 1.5em; font-weight: 700; }
 
 #left-pane { padding: 24px; background-color: var(--bg-secondary); position: relative; }
 #left-pane.full-width { width: 100% !important; flex-basis: 100% !important; }
-<<<<<<< HEAD
 #document-viewer { height: 100%; font-family: var(--font-content); }
-=======
-#document-viewer { 
-    height: 100%; 
-    font-family: var(--font-content); 
-    overflow: auto;
-    position: relative;
-    transition: transform 0.3s ease;
-}
->>>>>>> 4da0c2129ebf320e63e6b55c0d9a539a214fe08d
 
 #translation-panel {
     background-color: var(--bg-primary); display: flex; flex-direction: column;
@@ -201,388 +90,36 @@ button:hover:not(:disabled) { background-color: var(--bg-secondary); border-colo
 button:disabled { cursor: not-allowed; opacity: 0.6; }
 #dark-mode-toggle { width: 40px; height: 40px; padding: 0; font-size: 1.2em; border-radius: 50%; justify-content: center; }
 
-<<<<<<< HEAD
 /* --- Page Navigation --- */
 #page-nav-container { display: flex; align-items: center; gap: 4px; }
 #page-num-input {
     width: 50px;
     padding: 8px;
-=======
-/* --- Floating Document Controls --- */
-#document-controls {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    padding: 12px 20px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    flex-wrap: wrap;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    min-height: 56px;
-    position: relative;
-    animation: slideDown 0.5s ease-out;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Dark mode floating controls */
-body.dark-mode #document-controls {
-    background: rgba(30, 30, 30, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-#zoom-controls { 
-    display: flex; 
-    align-items: center; 
-    gap: 6px;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    padding: 6px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-}
-
-/* Dark mode zoom controls */
-body.dark-mode #zoom-controls {
-    background: rgba(50, 50, 50, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-#zoom-controls button {
-    border: none;
-    background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
-    padding: 10px;
-    width: 44px;
-    height: 44px;
-    font-size: 1.2em;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    position: relative;
-    overflow: hidden;
-}
-
-/* Dark mode zoom buttons */
-body.dark-mode #zoom-controls button {
-    background: linear-gradient(145deg, #404040, #303030);
-    color: white;
-}
-
-#zoom-controls button:hover:not(:disabled) {
-    background: linear-gradient(145deg, var(--accent-color), #0056b3);
-    color: white;
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
-}
-
-#zoom-controls button:active {
-    transform: translateY(0) scale(0.98);
-    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
-}
-
-#zoom-controls button i {
-    font-size: 1em;
-    color: var(--text-primary);
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    line-height: 1;
-}
-
-/* Fallback icons if Font Awesome doesn't load */
-#zoom-controls button i:before {
-    content: attr(data-icon);
-}
-
-#zoom-controls button i.fa-magnifying-glass-plus:before {
-    content: "⊕";
-    font-family: Arial, sans-serif;
-    font-weight: bold;
-    font-size: 1.2em;
-}
-
-#zoom-controls button i.fa-magnifying-glass-minus:before {
-    content: "⊖";
-    font-family: Arial, sans-serif;
-    font-weight: bold;
-    font-size: 1.2em;
-}
-
-/* Ensure icons are visible */
-#zoom-controls button i {
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-/* If Font Awesome fails, show text fallbacks */
-.fa-solid.fa-magnifying-glass-plus:before {
-    content: "⊕";
-    font-family: Arial, sans-serif !important;
-    font-size: 1.2em;
-}
-
-.fa-solid.fa-magnifying-glass-minus:before {
-    content: "⊖";
-    font-family: Arial, sans-serif !important;
-    font-size: 1.2em;
-}
-
-#zoom-controls button:hover {
-    background-color: var(--bg-secondary);
-}
-
-#zoom-reset-btn { 
-    font-weight: 500; 
-    font-size: 0.8em; 
-    min-width: 48px;
-}
-
-#zoom-level-display {
-    font-size: 0.85em;
-    color: var(--text-secondary);
-    font-weight: 500;
-    min-width: 40px;
-    text-align: center;
-    padding: 0 4px;
-}
-
-#page-nav-container { 
-    display: flex; 
-    align-items: center; 
-    gap: 4px;
-    background-color: var(--bg-primary);
-    padding: 4px 8px;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
-}
-
-#page-num-input {
-    width: 50px;
-    padding: 6px 8px;
->>>>>>> 4da0c2129ebf320e63e6b55c0d9a539a214fe08d
     border-radius: 6px;
     border: 1px solid var(--border-color);
     background-color: var(--bg-secondary);
     color: var(--text-primary);
     text-align: center;
     font-family: var(--font-ui);
-<<<<<<< HEAD
 }
 #page-count { font-size: 0.9em; color: var(--text-secondary); }
-=======
-    font-size: 0.9em;
-}
 
-#page-count { 
-    font-size: 0.9em; 
-    color: var(--text-secondary);
-    font-weight: 500;
-}
+#page-nav-container button { padding: 6px 8px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; }
 
-#fit-controls {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    padding: 6px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-}
+/* Highlight current page button state */
+#page-nav-container button:active { transform: translateY(1px); }
 
-/* Dark mode fit controls */
-body.dark-mode #fit-controls {
-    background: rgba(50, 50, 50, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+/* --- API Key Input --- */
+#api-key-container { display: flex; align-items: center; gap: 8px; }
+#api-key-container input#api-key-input {
+    width: 260px; max-width: 30vw; padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border-color);
+    background-color: var(--bg-secondary); color: var(--text-primary); font-family: var(--font-ui);
 }
+#api-key-container button { padding: 8px 10px; }
 
-#fit-controls button {
-    border: none;
-    background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
-    padding: 10px;
-    width: 44px;
-    height: 44px;
-    font-size: 1.2em;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    position: relative;
-    overflow: hidden;
+@media (max-width: 900px) {
+    #api-key-container input#api-key-input { width: 160px; max-width: 40vw; }
 }
-
-/* Dark mode fit buttons */
-body.dark-mode #fit-controls button {
-    background: linear-gradient(145deg, #404040, #303030);
-    color: white;
-}
-
-#fit-controls button:hover:not(:disabled) {
-    background: linear-gradient(145deg, var(--accent-color), #0056b3);
-    color: white;
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
-}
-
-#fit-controls button:active {
-    transform: translateY(0) scale(0.98);
-    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
-}
-
-#fit-controls button i {
-    font-size: 1em;
-    color: var(--text-primary);
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    line-height: 1;
-}
-
-/* Fallback icons for fit controls */
-#fit-controls button i.fa-arrows-left-right:before {
-    content: "↔";
-    font-family: Arial, sans-serif;
-    font-weight: bold;
-}
-
-#fit-controls button i.fa-expand:before {
-    content: "⛶";
-    font-family: Arial, sans-serif;
-    font-weight: bold;
-}
-
-/* Ensure fit control icons are visible */
-#fit-controls button i {
-    font-style: normal;
-    font-variant: normal;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-/* If Font Awesome fails, show text fallbacks for fit controls */
-.fa-solid.fa-arrows-left-right:before {
-    content: "↔";
-    font-family: Arial, sans-serif !important;
-}
-
-.fa-solid.fa-expand:before {
-    content: "⛶";
-    font-family: Arial, sans-serif !important;
-}
-
-#fit-controls button:hover {
-    background-color: var(--bg-secondary);
-}
-
-#fit-controls button.active {
-    background-color: var(--accent-color);
-    color: white;
-}
-
-#fit-controls button.active:hover {
-    background-color: var(--accent-color-hover);
-}
-
-/* Responsive design for controls */
-@media (max-width: 768px) {
-    #document-controls {
-        gap: 8px;
-        padding: 6px 12px;
-        flex-wrap: wrap;
-        min-height: 44px;
-    }
-    
-    #zoom-controls button,
-    #fit-controls button {
-        width: 36px;
-        height: 36px;
-        padding: 6px;
-        font-size: 1em;
-    }
-    
-    #zoom-reset-btn {
-        min-width: 48px;
-        font-size: 0.8em;
-    }
-    
-    #page-num-input {
-        width: 50px;
-        padding: 6px 8px;
-        font-size: 0.9em;
-    }
-    
-    .controls {
-        gap: 12px;
-    }
-}
-
-@media (max-width: 480px) {
-    #document-controls {
-        gap: 6px;
-        padding: 4px 8px;
-        min-height: 40px;
-    }
-    
-    #zoom-controls button,
-    #fit-controls button {
-        width: 32px;
-        height: 32px;
-        padding: 4px;
-        font-size: 0.9em;
-    }
-    
-    #zoom-reset-btn {
-        min-width: 44px;
-        font-size: 0.75em;
-    }
-    
-    #zoom-level-display {
-        font-size: 0.8em;
-        min-width: 38px;
-    }
-    
-    #page-num-input {
-        width: 45px;
-        padding: 4px 6px;
-        font-size: 0.85em;
-    }
-    
-    #page-count {
-        font-size: 0.85em;
-    }
-    
-    .controls {
-        gap: 8px;
-    }
-}
->>>>>>> 4da0c2129ebf320e63e6b55c0d9a539a214fe08d
 
 /* --- Library View --- */
 #library-view { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
@@ -614,91 +151,12 @@ body.dark-mode #fit-controls button {
 #translation-history-content .history-item { border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 15px; opacity: 0; transform: translateY(20px); animation: fadeIn 0.5s ease forwards; }
 .history-item .original-text { color: var(--text-secondary); font-size: 0.9em; margin-bottom: 8px; font-style: italic; }
 
-<<<<<<< HEAD
 /* --- PDF Specific Styles --- */
 .page-container { position: relative; margin: 20px auto; box-shadow: 0 2px 10px var(--shadow-color); background-color: #fff; }
-=======
-/* --- Document Zoom Styles --- */
-.zoomable-content {
-    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
-    transform-origin: top left;
-}
-
-/* --- PDF Specific Styles --- */
-.page-container { 
-    position: relative; 
-    margin: 20px auto; 
-    box-shadow: 0 2px 10px var(--shadow-color); 
-    background-color: #fff; 
-    transition: width 0.3s ease, height 0.3s ease;
-    transform-origin: top center;
-}
->>>>>>> 4da0c2129ebf320e63e6b55c0d9a539a214fe08d
 .page-container canvas { display: block; }
 .textLayer { position: absolute; left: 0; top: 0; right: 0; bottom: 0; line-height: 1.0; }
 .textLayer > span { color: transparent; position: absolute; white-space: pre; cursor: text; transform-origin: 0% 0%; }
 
-<<<<<<< HEAD
-=======
-/* --- DOCX Styles --- */
-.docx-content {
-    background-color: var(--bg-primary);
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 800px;
-    box-shadow: 0 2px 10px var(--shadow-color);
-    border-radius: 8px;
-    transition: transform 0.3s ease, width 0.3s ease;
-    transform-origin: top left;
-}
-
-/* --- EPUB Styles --- */
-.epub-content {
-    background-color: var(--bg-primary);
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 800px;
-    box-shadow: 0 2px 10px var(--shadow-color);
-    border-radius: 8px;
-    transition: transform 0.3s ease, width 0.3s ease;
-    transform-origin: top left;
-}
-
-/* --- Responsive Document Viewer --- */
-@media (max-width: 768px) {
-    #left-pane {
-        padding: 16px;
-    }
-    
-    .page-container {
-        margin: 15px auto;
-    }
-    
-    .docx-content,
-    .epub-content {
-        padding: 15px;
-        margin: 15px auto;
-        max-width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    #left-pane {
-        padding: 12px;
-    }
-    
-    .page-container {
-        margin: 10px auto;
-    }
-    
-    .docx-content,
-    .epub-content {
-        padding: 12px;
-        margin: 10px auto;
-    }
-}
-
->>>>>>> 4da0c2129ebf320e63e6b55c0d9a539a214fe08d
 /* --- Resizable Panes (Split.js) --- */
 .gutter { background-color: var(--bg-tertiary); background-repeat: no-repeat; background-position: 50%; transition: background-color 0.3s ease; }
 .gutter.gutter-horizontal { background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxl79uzZQAJKKKaBwWIoPhsAhQAAFvA/3sc2TCgAAAAASUVORK5CYII='); cursor: col-resize; z-index: 100 !important; }
@@ -713,41 +171,12 @@ body.dark-mode #fit-controls button {
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 .fade-out { opacity: 0; visibility: hidden; }
 
-<<<<<<< HEAD
 /* --- Animated Welcome Screen Background --- */
 .background-bubbles { position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1; margin: 0; padding: 0; }
 .background-bubbles li{
     position: absolute; display: block; list-style: none; width: 20px; height: 20px;
     background: var(--accent-color); animation: animate-bubbles 25s linear infinite;
     bottom: -150px; opacity: 0.2;
-=======
-/* --- Floating Background Bubbles --- */
-.background-bubbles { 
-    position: absolute; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    overflow: hidden; 
-    z-index: 1; 
-    margin: 0; 
-    padding: 0; 
-}
-
-.background-bubbles li{
-    position: absolute; 
-    display: block; 
-    list-style: none; 
-    width: 20px; 
-    height: 20px;
-    background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.1));
-    border-radius: 50%;
-    animation: float-bubbles 25s linear infinite;
-    bottom: -150px; 
-    opacity: 0.6;
-    backdrop-filter: blur(2px);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
->>>>>>> 4da0c2129ebf320e63e6b55c0d9a539a214fe08d
 }
 .background-bubbles li:nth-child(1){ left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
 .background-bubbles li:nth-child(2){ left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
@@ -759,188 +188,4 @@ body.dark-mode #fit-controls button {
 .background-bubbles li:nth-child(8){ left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
 .background-bubbles li:nth-child(9){ left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
 .background-bubbles li:nth-child(10){ left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
-<<<<<<< HEAD
 @keyframes animate-bubbles { 0%{ transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 0; } 100%{ transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; } }
-=======
-@keyframes float-bubbles { 
-    0%{ 
-        transform: translateY(0) rotate(0deg) scale(0.8); 
-        opacity: 0.6; 
-    } 
-    50% {
-        transform: translateY(-500px) rotate(180deg) scale(1.2);
-        opacity: 0.8;
-    }
-    100%{ 
-        transform: translateY(-1000px) rotate(360deg) scale(0.5); 
-        opacity: 0; 
-    } 
-}
-
-/* --- ENHANCED SELECTION STYLES --- */
-@keyframes selectionPulse {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
-    }
-    50% {
-        transform: scale(1.02);
-        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.5);
-    }
-    100% {
-        transform: scale(1);
-        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
-    }
-}
-
-.selection-highlight {
-    background: linear-gradient(120deg, rgba(0, 123, 255, 0.2), rgba(0, 123, 255, 0.1)) !important;
-    border-radius: 4px !important;
-    padding: 2px 4px !important;
-    margin: 0 1px !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3) !important;
-    animation: selectionPulse 0.5s ease-out !important;
-    position: relative !important;
-}
-
-.selection-highlight::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    animation: shimmer 2s infinite;
-    pointer-events: none;
-}
-
-@keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
-/* Selection context menu */
-.selection-context-menu {
-    position: fixed;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(20px);
-    border-radius: 12px;
-    padding: 8px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    z-index: 10000;
-    display: flex;
-    gap: 4px;
-    animation: slideUp 0.3s ease-out;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(10px) scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.selection-context-menu button {
-    background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
-    border: none;
-    border-radius: 8px;
-    padding: 8px 12px;
-    font-size: 0.9em;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    min-width: 40px;
-    justify-content: center;
-}
-
-.selection-context-menu button:hover {
-    background: linear-gradient(145deg, var(--accent-color), #0056b3);
-    color: white;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
-}
-
-/* Dark mode selection styles */
-body.dark-mode .selection-highlight {
-    background: linear-gradient(120deg, rgba(58, 156, 255, 0.3), rgba(58, 156, 255, 0.1)) !important;
-    box-shadow: 0 2px 8px rgba(58, 156, 255, 0.4) !important;
-}
-
-body.dark-mode .selection-context-menu {
-    background: rgba(30, 30, 30, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-body.dark-mode .selection-context-menu button {
-    background: linear-gradient(145deg, #404040, #303030);
-    color: white;
-}
-
-/* Selection mode indicator */
-#selection-mode-indicator {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    padding: 6px 12px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-    animation: slideDown 0.3s ease-out;
-}
-
-#selection-mode-text {
-    font-size: 0.9em;
-    font-weight: 500;
-    color: var(--text-primary);
-    min-width: 60px;
-    text-align: center;
-}
-
-#selection-mode-btn {
-    background: linear-gradient(145deg, #f0f0f0, #e0e0e0);
-    border: none;
-    border-radius: 8px;
-    padding: 6px 8px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 32px;
-    height: 32px;
-}
-
-#selection-mode-btn:hover {
-    background: linear-gradient(145deg, var(--accent-color), #0056b3);
-    color: white;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
-}
-
-/* Dark mode selection indicator */
-body.dark-mode #selection-mode-indicator {
-    background: rgba(50, 50, 50, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-body.dark-mode #selection-mode-text {
-    color: white;
-}
-
-body.dark-mode #selection-mode-btn {
-    background: linear-gradient(145deg, #404040, #303030);
-    color: white;
-}
->>>>>>> 4da0c2129ebf320e63e6b55c0d9a539a214fe08d
