@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="100%" height="100%" fill="#000"/>
+  <g transform="translate(64,96)">
+    <rect x="0" y="0" width="384" height="320" rx="32" fill="#fff" />
+    <text x="192" y="188" font-family="Inter, sans-serif" font-size="72" fill="#000" font-weight="700" text-anchor="middle">Tran</text>
+    <text x="192" y="248" font-family="Merriweather, serif" font-size="48" fill="#000" text-anchor="middle">Book</text>
+  </g>
+</svg>
