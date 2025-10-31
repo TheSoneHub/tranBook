@@ -1,54 +1,37 @@
-# docutranslate-ai
+# TranBook — In-App Document Translator (v2.0)
 
-Project: DocuTranslate AI - Version 1.0 Final
+TranBook is a lightweight, privacy-first web app that lets you read PDF/DOCX/EPUB files in the browser and translate selected text instantly using AI.
 
-**Vision:** To create an all-in-one reading and translation tool that allows users to seamlessly read digital documents and translate text on the fly, eliminating language barriers and context switching.
+Live demo: https://tranbook.netlify.app/
 
----
+Created by ThesoneHub from Myanmar 🇲🇲
 
-## Core Features Implemented in V1
+Overview
+--------
+TranBook focuses on fast, contextual translations while keeping your documents local to the browser. The app is ideal for language learners and readers who want immediate, in-context translations without leaving the page.
 
-- [x]  **🚀 Welcome Screen:** A beautiful animated welcome screen to greet users and introduce the application's purpose.
-- [x]  **📚 Local Document Library:**
-    - Users can upload multiple documents (`.pdf`, `.docx`, `.epub`).
-    - Documents are saved locally in the browser's IndexedDB, creating a persistent personal library.
-    - Users can open any book from their library without re-uploading.
-    - Ability to delete books from the library.
-- [x]  **📖 Integrated Document Viewer:**
-    - High-fidelity rendering for PDF (with selectable text layer), DOCX, and EPUB files.
-    - Clean, distraction-free reading interface.
-- [x]  **✨ AI-Powered "Select-to-Translate":**
-    - The core feature: simply highlighting text in any document instantly triggers a translation.
-    - Powered by Google's Gemini AI for natural and context-aware translations.
-    - Supports multiple target languages (Burmese, English, Japanese).
-- [x]  **📑 Translation Management:**
-    - A clean, tabbed interface to switch between the current translation and the session's history.
-    - **Copy to Clipboard:** Easily copy the translated text with a single click.
-    - **Export to Markdown:** Export the entire session's translation history as a `.md` file, perfect for note-taking in apps like Notion.
-- [x]  **👓 Professional UI/UX:**
-    - **Resizable Panes:** Adjust the size of the reader and translator panels for a personalized workflow.
-    - **Dark Mode:** A beautiful, eye-friendly dark theme that's saved to the user's preference.
-    - **Elegant Design:** A modern, clean interface with a professional color palette, typography, and subtle animations.
-    - **Toast Notifications:** Non-intrusive feedback for actions like copying text or exporting history.
-- [x]  **📄 PDF Page Navigation:**
-    - A simple and effective "Go to Page" input box for PDFs, allowing users to jump directly to any page.
+Key features (v2.0)
+- Select-to-translate: highlight any selectable text in a document to get instant AI-powered translation.
+- Per-word dictionary mode: when enabled, the app returns dictionary-style translations and short example sentences for each word (great for English learners).
+- Local library: upload and store `.pdf`, `.docx`, and `.epub` files in your browser (IndexedDB).
+- Exportable history: export session translations to Markdown for notes.
+- Responsive UI with resizable panes and dark/light theme toggle.
 
----
+Tech stack
+- Plain HTML/CSS/JS (no backend required)
+- pdf.js, docx-preview, epub.js, split.js
+- Google Gemini API for translations (API key required)
 
-## Technical Stack & Architecture
+Privacy
+- Files stay in your browser and are not uploaded elsewhere by the app itself. Only the text sent for translation (when you highlight/copy) is sent to the configured AI endpoint.
 
-- **Frontend:** Static Web App (HTML, CSS, JavaScript)
-- **Core Libraries:**
-    - `pdf.js` for PDF rendering.
-    - `docx-preview.js` for DOCX rendering.
-    - `Epub.js` for EPUB rendering.
-    - `Split.js` for resizable panes.
-- **Local Storage:** IndexedDB for the document library.
-- **AI Backend:** Google Gemini API.
-- **API Key Security:** The final version uses a local `config.js` file (ignored by Git) to store the API key, ensuring it is not exposed in public repositories.
+Getting started
+1. Open `index.html` in a browser (or visit the live demo above).
+2. Add your Google AI API key in the UI (or set it in `config.js`).
+3. Upload documents using the "Add New Book" card and start translating by selecting text.
 
----
+Credits
+- Created by ThesoneHub from Myanmar 🇲🇲 — enjoy and share feedback!
 
-## Final Decision: Feature Removals for Stability
-
-- **Removed "Table of Contents" (TOC):** The feature proved to be unstable across different document types and created a cluttered UI. It was removed in favor of the more reliable and universally applicable "Go to Page" feature for PDFs, ensuring a stable and clean user experience.
+License
+- MIT

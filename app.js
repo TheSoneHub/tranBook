@@ -15,6 +15,7 @@ const translationPanel = document.getElementById('translation-panel');
 const backToLibraryBtn = document.getElementById('back-to-library-btn');
 const languageSelect = document.getElementById('language-select');
 const darkModeToggle = document.getElementById('dark-mode-toggle');
+const perWordToggle = document.getElementById('per-word-toggle');
 // Page Navigation Elements
 const pageNavContainer = document.getElementById('page-nav-container');
 const pageNumInput = document.getElementById('page-num-input');
@@ -105,6 +106,12 @@ function initializeUI() {
     fileInput.addEventListener('change', handleFileSelect);
     backToLibraryBtn.addEventListener('click', showLibraryView);
     docViewer.addEventListener('mouseup', handleTextSelection);
+    if (perWordToggle) {
+        // No special handler required now — checked state is read when translating.
+        perWordToggle.addEventListener('change', () => {
+            showToast(perWordToggle.checked ? 'Per-word dictionary mode enabled' : 'Per-word dictionary mode disabled');
+        });
+    }
     copyButton.addEventListener('click', handleCopy);
     exportButton.addEventListener('click', handleExport);
     tabButtons.forEach(button => button.addEventListener('click', handleTabClick));
@@ -198,7 +205,15 @@ async function getTranslation(textToTranslate) {
     currentTranslationContent.innerHTML = '<div class="loader"></div>';
     copyButton.disabled = true;
     const targetLanguage = languageSelect.value;
-    const prompt = `Translate the following text into natural and fluent ${targetLanguage}. Maintain the original context and tone. Provide only the translated text without any additional explanations or labels. Text to translate: "${textToTranslate}"\n\n${targetLanguage} Translation:`;
+    let prompt;
+    const usingPerWord = perWordToggle && perWordToggle.checked;
+
+    if (usingPerWord) {
+        // Ask the model to return a JSON array with per-word dictionary-style translations/definitions
+        prompt = `You are a helpful bilingual dictionary assistant. Given the following English text, extract each distinct word (ignore punctuation) and for each word provide: the original word, probable part of speech (short), and a concise dictionary-style translation/definition in ${targetLanguage}. Also include a short example sentence in ${targetLanguage} if applicable. Return the complete result as valid JSON: an array of objects with keys \"word\", \"pos\", \"translation\", and optionally \"example\". Text: "${textToTranslate}"\n\nRespond with only the JSON array, no additional commentary.`;
+    } else {
+        prompt = `Translate the following text into natural and fluent ${targetLanguage}. Maintain the original context and tone. Provide only the translated text without any additional explanations or labels. Text to translate: "${textToTranslate}"\n\n${targetLanguage} Translation:`;
+    }
 
     try {
         const apiKey = getStoredApiKey() || (typeof GOOGLE_AI_API_KEY !== 'undefined' ? GOOGLE_AI_API_KEY : undefined);
@@ -217,16 +232,73 @@ async function getTranslation(textToTranslate) {
         }
 
         const data = await response.json();
-        const translation = data.candidates && data.candidates[0] ? data.candidates[0].content.parts[0].text : "No translation found.";
-        currentTranslationContent.innerText = translation;
-        copyButton.disabled = false;
-        translationLog.unshift({ original: textToTranslate, translated: translation });
+        const textResult = data.candidates && data.candidates[0] ? data.candidates[0].content.parts[0].text : "No translation found.";
+        if (usingPerWord) {
+            // Try to parse JSON from the model response
+            renderPerWordDictionary(textResult, textToTranslate);
+            translationLog.unshift({ original: textToTranslate, translated: textResult });
+        } else {
+            currentTranslationContent.innerText = textResult;
+            copyButton.disabled = false;
+            translationLog.unshift({ original: textToTranslate, translated: textResult });
+        }
         updateHistoryView();
     } catch (error) {
         currentTranslationContent.innerText = `Error: ${error.message}`;
     } finally {
         exportButton.disabled = translationLog.length === 0;
     }
+}
+
+function renderPerWordDictionary(resultText, originalText) {
+    // Attempt to parse JSON
+    let parsed = null;
+    try {
+        // Some models may include stray characters - attempt to find first '[' and last ']'
+        const first = resultText.indexOf('[');
+        const last = resultText.lastIndexOf(']');
+        const jsonString = (first !== -1 && last !== -1) ? resultText.slice(first, last + 1) : resultText;
+        parsed = JSON.parse(jsonString);
+    } catch (e) {
+        parsed = null;
+    }
+
+    if (!parsed || !Array.isArray(parsed)) {
+        // Fallback: show raw model output
+        currentTranslationContent.innerText = resultText;
+        copyButton.disabled = false;
+        return;
+    }
+
+    // Build HTML list
+    const container = document.createElement('div');
+    container.style.padding = '8px';
+    const list = document.createElement('div');
+    list.style.display = 'flex';
+    list.style.flexDirection = 'column';
+    list.style.gap = '10px';
+
+    parsed.forEach(item => {
+        const row = document.createElement('div');
+        row.style.borderBottom = '1px solid var(--border-color)';
+        row.style.paddingBottom = '8px';
+        row.innerHTML = `
+            <div style="font-weight:700;color:var(--text-primary);font-size:1.02em;">${escapeHtml(item.word || item.WORD || '')} <span style=\"font-weight:400;color:var(--text-secondary);font-size:0.9em;\">${escapeHtml(item.pos || '')}</span></div>
+            <div style="color:var(--text-primary);margin-top:6px;">${escapeHtml(item.translation || item.meaning || '')}</div>
+            ${item.example ? `<div style="color:var(--text-secondary);margin-top:6px;font-style:italic;">${escapeHtml(item.example)}</div>` : ''}
+        `;
+        list.appendChild(row);
+    });
+
+    container.appendChild(list);
+    currentTranslationContent.innerHTML = '';
+    currentTranslationContent.appendChild(container);
+    copyButton.disabled = false;
+}
+
+function escapeHtml(unsafe) {
+    if (!unsafe && unsafe !== '') return '';
+    return String(unsafe).replace(/[&<>"']/g, function(m) { return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[m]; });
 }
 function handleCopy() { /* ... No changes ... */ const textToCopy = currentTranslationContent.innerText; navigator.clipboard.writeText(textToCopy).then(() => showToast('Copied to clipboard!')); }
 function handleExport() { /* ... No changes ... */ if (translationLog.length === 0) return showToast("No history to export."); let markdownContent = `# Translation History\n\n`; [...translationLog].reverse().forEach(item => { markdownContent += `## Original\n> ${item.original}\n\n**Translation (${languageSelect.value})**\n${item.translated}\n\n---\n\n`; }); const blob = new Blob([markdownContent], { type: 'text/markdown' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'translation_history.md'; a.click(); URL.revokeObjectURL(a.href); showToast('History exported!'); }

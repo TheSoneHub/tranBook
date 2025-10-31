@@ -23,6 +23,7 @@
             <i class="fa-solid fa-book-open-reader welcome-icon"></i>
             <h1>Welcome to My TranBook</h1>
             <p>Break down language barriers. Read any document and translate on the fly with the power of AI.</p>
+            <p style="margin-top:8px;font-size:0.95em;color:#cccccc;">Created by <strong>ThesoneHub</strong> from Myanmar 🇲🇲 </p>
             <button id="start-app-btn">Get Started <i class="fa-solid fa-arrow-right"></i></button>
         </div>
     </div>
@@ -34,10 +35,12 @@
                 <button id="back-to-library-btn" class="hidden"><i class="fa-solid fa-arrow-left"></i> Library</button>
                 <i class="fa-solid fa-book-open-reader"></i>
                 <h1>DocuTranslate AI</h1>
+                <div style="font-size:0.85em;color:var(--text-secondary);margin-left:8px;">Created by ThesoneHub 🇲🇲</div>
             </div>
             <div class="controls">
                 <!-- NEW: Go to Page Navigation for PDFs -->
                 <div id="page-nav-container" class="hidden">
+                    <span>Page Finder:</span>
                     <button id="page-prev-btn" title="Previous page"><i class="fa-solid fa-chevron-left"></i></button>
                     <input type="number" id="page-num-input" min="1">
                     <button id="page-next-btn" title="Next page"><i class="fa-solid fa-chevron-right"></i></button>
@@ -48,6 +51,11 @@
                     <option value="English">Translate to English</option>
                     <option value="Japanese">Translate to Japanese</option>
                 </select>
+                <!-- Per-word dictionary mode for language learners -->
+                <label title="When enabled, the app will provide dictionary-style translations/definitions for each word instead of a direct full-text translation." style="display:flex;align-items:center;gap:8px;">
+                    <input type="checkbox" id="per-word-toggle">
+                    <span style="font-size:0.9em;">Per-word dictionary mode</span>
+                </label>
                 <!-- API Key Input (for Google AI Studio) -->
                 <div id="api-key-container">
                     <input type="password" id="api-key-input" placeholder="Enter Google AI API Key" aria-label="Google AI API Key">
