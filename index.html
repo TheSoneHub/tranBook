@@ -41,8 +41,6 @@
             <div class="logo">
                 <button id="back-to-library-btn" class="hidden"><i class="fa-solid fa-arrow-left"></i> Library</button>
                 <i class="fa-solid fa-book-open-reader"></i>
-                <h1>DocuTranslate AI</h1>
-                <div style="font-size:0.85em;color:var(--text-secondary);margin-left:8px;">Created by ThesoneHub 🇲🇲</div>
             </div>
             <div class="controls">
                 <!-- NEW: Go to Page Navigation for PDFs -->
@@ -69,6 +67,9 @@
                     <button id="save-api-key-btn" title="Save API Key">Save</button>
                     <button id="clear-api-key-btn" title="Clear API Key">Clear</button>
                 </div>
+                <button id="lofi-toggle-btn" title="Toggle Lofi" class="lofi-toggle">
+                    <i class="fa-solid fa-headphones"></i>
+                </button>
                 <button id="dark-mode-toggle" title="Toggle Dark Mode">
                     <i class="fa-solid fa-moon"></i>
                 </button>
@@ -108,6 +109,12 @@
     <div id="toast-container"></div>
     <input type="file" id="file-input" class="file-input-hidden" accept=".pdf, .docx, .epub">
 
+    <!-- Hidden container for the YouTube IFrame player (lofi audio).
+         Note: avoid display:none so the iframe can initialize and play audio; keep it offscreen. -->
+    <div id="lofi-player-container" style="position:absolute; width:1px; height:1px; left:-9999px; overflow:hidden;">
+        <div id="lofi-player"></div>
+    </div>
+
     <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js"></script>
@@ -118,6 +125,8 @@
 
     <!-- Configuration file for API Key -->
     <script src="config.js"></script>
+    <!-- YouTube IFrame API (for lofi playback controls) -->
+    <script src="https://www.youtube.com/iframe_api"></script>
     <!-- Our Application Logic -->
     <script src="app.js"></script>
 </body>

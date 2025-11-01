@@ -92,6 +92,19 @@ button:hover:not(:disabled) { background-color: var(--bg-secondary); border-colo
 button:disabled { cursor: not-allowed; opacity: 0.6; }
 #dark-mode-toggle { width: 40px; height: 40px; padding: 0; font-size: 1.2em; border-radius: 50%; justify-content: center; }
 
+/* --- Lofi controls styles --- */
+.lofi-toggle { width: 40px; height: 40px; padding: 0; font-size: 1.05em; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); background-color: transparent; color: var(--text-secondary); }
+.lofi-toggle:hover { color: var(--accent-color); }
+.lofi-toggle.playing { color: var(--accent-color); }
+.lofi-toggle.playing::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #4caf50; position: absolute; right: 8px; top: 10px; box-shadow: 0 0 6px rgba(76,175,80,0.8); }
+
+.lofi-action { padding: 8px 12px; display: inline-flex; gap:8px; align-items:center; }
+.lofi-action i { width: 14px; text-align: center; }
+
+@media (max-width: 700px) {
+    .lofi-action { display: none; }
+}
+
 /* --- Page Navigation --- */
 #page-nav-container { display: flex; align-items: center; gap: 4px; }
 #page-num-input {

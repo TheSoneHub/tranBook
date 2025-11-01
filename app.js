@@ -46,6 +46,13 @@ let splitInstance = null;
 let epubRendition = null;
 let currentPdf = null;
 
+// --- Lofi (YouTube) Player State ---
+let lofiPlayer = null;
+let lofiIsPlaying = false;
+// Set to the requested lofi livestream video id
+const LOFI_VIDEO_ID = 'jfKfPfyJRdk'; // requested: https://www.youtube.com/live/jfKfPfyJRdk
+const LOFI_STORAGE_KEY = 'lofiPlaying';
+
 // --- INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', async () => {
     await db.init();
@@ -80,7 +87,97 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (e) {
         // If DOM elements not found, ignore silently
     }
+    // Initialize lofi controls (header button + action button)
+    try { initLofiControls(); } catch (e) { console.warn('Lofi init failed', e); }
 });
+
+// Create the YouTube player. Assign to the global callback name so the API can call it,
+// and also expose/allow manual creation if the API loaded earlier.
+window.onYouTubeIframeAPIReady = function() {
+    try {
+        // Use a tiny 1x1 iframe (avoid 0 which may cause issues) and keep the container offscreen.
+        lofiPlayer = new YT.Player('lofi-player', {
+            height: '1',
+            width: '1',
+            videoId: LOFI_VIDEO_ID,
+            playerVars: {
+                autoplay: 0,
+                controls: 0,
+                modestbranding: 1,
+                rel: 0,
+                showinfo: 0,
+                loop: 1,
+                playlist: LOFI_VIDEO_ID
+            },
+            events: {
+                onStateChange: function(evt) {
+                    const playing = evt.data === YT.PlayerState.PLAYING;
+                    setLofiPlayingState(playing);
+                }
+            }
+        });
+    } catch (e) {
+        console.warn('Failed to create YouTube player', e);
+    }
+};
+
+function initLofiControls() {
+    const headerBtn = document.getElementById('lofi-toggle-btn');
+    const actionBtn = document.getElementById('lofi-action-btn');
+
+    if (headerBtn) headerBtn.addEventListener('click', toggleLofi);
+    if (actionBtn) actionBtn.addEventListener('click', toggleLofi);
+
+    // Restore stored state (play only after a user interaction because browsers block autoplay)
+    const stored = localStorage.getItem(LOFI_STORAGE_KEY);
+    const shouldPlay = stored === 'true';
+
+    // Update UI to reflect stored preference; actual playback may require interaction
+    updateLofiUI(shouldPlay);
+
+    // If YT API already loaded and container exists but player not created, try to create it
+    if (typeof YT !== 'undefined' && YT && !lofiPlayer && document.getElementById('lofi-player')) {
+        // If the global ready callback is not called, call creation directly
+        try { onYouTubeIframeAPIReady(); } catch (e) {}
+    }
+}
+
+function toggleLofi() {
+    // If player available, toggle using API
+    if (lofiPlayer && typeof lofiPlayer.getPlayerState === 'function') {
+        const state = lofiPlayer.getPlayerState();
+        if (state === YT.PlayerState.PLAYING) {
+            lofiPlayer.pauseVideo();
+            setLofiPlayingState(false);
+        } else {
+            // Attempt to play; if blocked, UI will still reflect desire
+            lofiPlayer.playVideo();
+            setLofiPlayingState(true);
+        }
+        return;
+    }
+
+    // If API/player not available, attempt to open the YouTube page in a new tab as a fallback
+    const youtubeUrl = `https://www.youtube.com/watch?v=${LOFI_VIDEO_ID}`;
+    window.open(youtubeUrl, '_blank');
+}
+
+function setLofiPlayingState(playing) {
+    lofiIsPlaying = !!playing;
+    try { localStorage.setItem(LOFI_STORAGE_KEY, lofiIsPlaying ? 'true' : 'false'); } catch (e) {}
+    updateLofiUI(lofiIsPlaying);
+}
+
+function updateLofiUI(playing) {
+    const headerBtn = document.getElementById('lofi-toggle-btn');
+    const actionBtn = document.getElementById('lofi-action-btn');
+    if (headerBtn) {
+        if (playing) headerBtn.classList.add('playing'); else headerBtn.classList.remove('playing');
+    }
+    if (actionBtn) {
+        actionBtn.innerHTML = playing ? '<i class="fa-solid fa-pause"></i> Pause Lofi' : '<i class="fa-solid fa-play"></i> Play Lofi';
+    }
+}
 
 // --- API Key helpers ---
 function getStoredApiKey() {
